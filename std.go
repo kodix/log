@@ -79,3 +79,7 @@ func Prefix() string {
 func AddPrefix(prefix string) {
 	std.AddPrefix(prefix)
 }
+
+func Copy() *Logger {
+	return std.Copy()
+}

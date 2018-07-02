@@ -4,6 +4,7 @@ import (
 	"log"
 	"io"
 	"sync"
+	"os"
 )
 
 type Verbosity uint8
@@ -120,4 +121,13 @@ func (l *Logger) Prefix() string {
 
 func (l *Logger) AddPrefix(prefix string) {
 	l.SetPrefix(l.Prefix() + " " + prefix)
+}
+
+func (l *Logger) Copy() *Logger {
+	logger := log.New(os.Stdout, l.l.Prefix(), l.l.Flags())
+	return &Logger{
+		l: logger,
+		lvl:l.lvl,
+		mu: sync.RWMutex{},
+	}
 }
