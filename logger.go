@@ -25,7 +25,7 @@ type Logger struct {
 func New(out io.Writer, prefix string, v Verbosity, flag int) *Logger {
 	return &Logger{
 		l:   log.New(out, prefix, flag),
-		mu: sync.RWMutex{},
+		mu:  sync.RWMutex{},
 		lvl: v,
 	}
 }
@@ -112,4 +112,12 @@ func (l *Logger) Infoln(args ...interface{}) {
 	if l.Verbosity() >= Info {
 		l.l.Println(args...)
 	}
+}
+
+func (l *Logger) Prefix() string {
+	return l.l.Prefix()
+}
+
+func (l *Logger) AddPrefix(prefix string) {
+	l.SetPrefix(l.Prefix() + " " + prefix)
 }

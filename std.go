@@ -71,3 +71,11 @@ func Debugf(format string, args ...interface{}) {
 func Debugln(args ...interface{}) {
 	std.Debugln(args...)
 }
+
+func Prefix() string {
+	return std.Prefix()
+}
+
+func AddPrefix(prefix string) {
+	std.AddPrefix(prefix)
+}
