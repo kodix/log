@@ -2,9 +2,9 @@ package log
 
 import (
 	"log"
-	"testing"
 	"os"
 	"runtime"
+	"testing"
 )
 
 func TestRace(t *testing.T) {
@@ -14,7 +14,7 @@ func TestRace(t *testing.T) {
 	}
 	SetOutput(out)
 	for i := 0; i < runtime.NumCPU(); i++ {
-		go func(){
+		go func() {
 			SetVerbosity(Debug)
 			Debugln("")
 			Debugf("")
@@ -44,4 +44,8 @@ func TestLogger_SetVerbosity(t *testing.T) {
 			t.Errorf("%s: want: %v, got: %v", name, Info, l.Verbosity())
 		}
 	})
+}
+
+func TestLogger_Fatalln(t *testing.T) {
+	Fatalln("i am fatal", "blablabla")
 }

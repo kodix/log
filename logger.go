@@ -1,19 +1,19 @@
 package log
 
 import (
-	"log"
 	"io"
-	"sync"
+	"log"
 	"os"
+	"sync"
 )
 
 type Verbosity uint8
 
 const (
-	Error   Verbosity = iota
+	Error Verbosity = iota
 	Warning
-	Debug
 	Info
+	Debug
 )
 
 type Logger struct {
@@ -56,62 +56,62 @@ func (l *Logger) Verbosity() Verbosity {
 }
 
 func (l *Logger) Fatalf(format string, args ...interface{}) {
-	l.l.Fatalf(format, args...)
+	l.l.Fatalf("[fatal]"+format, args...)
 }
 
 func (l *Logger) Fatalln(args ...interface{}) {
-	l.l.Fatalln(args...)
+	l.l.Fatalln(append([]interface{}{"[fatal]"}, args...)...)
 }
 
 func (l *Logger) Panicf(format string, args ...interface{}) {
-	l.l.Panicf(format, args...)
+	l.l.Panicf("[panic]"+format, args...)
 }
 
 func (l *Logger) Panicln(args ...interface{}) {
-	l.l.Panicln(args...)
+	l.l.Panicln(append([]interface{}{"[panic]"}, args...)...)
 }
 
 func (l *Logger) Errorf(format string, args ...interface{}) {
-	l.l.Printf(format, args...)
+	l.l.Printf("[error]"+format, args...)
 }
 
 func (l *Logger) Errorln(args ...interface{}) {
-	l.l.Println(args...)
+	l.l.Println(append([]interface{}{"[error]"}, args...)...)
 }
 
 func (l *Logger) Warningf(format string, args ...interface{}) {
 	if l.Verbosity() >= Warning {
-		l.l.Printf(format, args...)
+		l.l.Printf("[warning]"+format, args...)
 	}
 }
 
 func (l *Logger) Warningln(args ...interface{}) {
 	if l.Verbosity() >= Warning {
-		l.l.Println(args...)
+		l.l.Println(append([]interface{}{"[warning]"}, args...)...)
 	}
 }
 
 func (l *Logger) Debugf(format string, args ...interface{}) {
 	if l.Verbosity() >= Debug {
-		l.l.Printf(format, args...)
+		l.l.Printf("[debug]"+format, args...)
 	}
 }
 
 func (l *Logger) Debugln(args ...interface{}) {
 	if l.Verbosity() >= Debug {
-		l.l.Println(args...)
+		l.l.Println(append([]interface{}{"[debug]"}, args...)...)
 	}
 }
 
 func (l *Logger) Infof(format string, args ...interface{}) {
 	if l.Verbosity() >= Info {
-		l.l.Printf(format, args...)
+		l.l.Printf("[info]"+format, args...)
 	}
 }
 
 func (l *Logger) Infoln(args ...interface{}) {
 	if l.Verbosity() >= Info {
-		l.l.Println(args...)
+		l.l.Println(append([]interface{}{"[info]"}, args...)...)
 	}
 }
 
@@ -126,8 +126,8 @@ func (l *Logger) AddPrefix(prefix string) {
 func (l *Logger) Copy() *Logger {
 	logger := log.New(os.Stdout, l.l.Prefix(), l.l.Flags())
 	return &Logger{
-		l: logger,
-		lvl:l.lvl,
-		mu: sync.RWMutex{},
+		l:   logger,
+		lvl: l.lvl,
+		mu:  sync.RWMutex{},
 	}
 }
